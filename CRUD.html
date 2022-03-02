@@ -1,0 +1,130 @@
+
+
+
+    
+    <style>
+      
+        #editbox, #save-edit {
+           display: none;
+        } 
+        
+    </style>
+    
+    
+    
+
+
+
+
+
+<input id="new-todo">
+
+<button id="add-todo" onclick="app.Add()">add</button>
+
+
+<input id="editbox" placeholder="edit box">
+<button id="save-edit">save</button>
+
+
+<div id="todos"></div>
+
+
+
+<script type="text/javascript" charset="utf-8">
+    
+    let app = {}
+    
+    app.el = document.getElementById('todos') 
+    
+    app.tasks = []
+    
+    app.FetchAll =()=> {
+        
+        data = ''
+        
+        for (i=0;i<app.tasks.length;i++) {
+            
+            data += '<div>'
+            data += (i+1) + '. '
+            data += app.tasks[i]
+            data += `<button onclick="app.Edit(`+i+`)">edit</button>`
+            data += `<button onclick="app.Delete(`+i+`)">done</button>`
+            data += '</div>'
+            
+        }
+        
+        
+        app.el.innerHTML = data
+        
+    }
+    
+    app.Add =()=> {
+        
+        let newTodo = document.getElementById("new-todo")
+        
+        app.tasks.push(newTodo.value);
+        
+        newTodo.value = "";
+        
+        // display new task list
+        app.FetchAll()
+        
+        
+    }
+    
+    app.Edit =(item)=> {
+        
+        let editBox = document.getElementById("editbox")
+        
+        let saveEdit = document.getElementById('save-edit')
+        
+        editBox.value = app.tasks[item]
+  
+     
+        editBox.style.setProperty("display", "inline-block");  
+        
+        saveEdit.style.setProperty("display", "inline-block"); 
+
+        document.getElementById("save-edit").onclick =()=> {
+       
+        app.tasks.splice(item, 1, editBox.value)
+        
+        
+        
+        editBox.value = ""
+        
+        app.FetchAll()
+        
+        document.getElementById("save-edit").onclick = ""
+        
+        editBox.style.setProperty("display", "none");  
+        
+        saveEdit.style.setProperty("display", "none"); 
+        
+        
+        
+        
+        
+        }
+        
+        
+        
+    }
+        
+        
+    app.Delete =(item)=> {
+        
+        app.tasks.splice(item, 1)
+        
+        app.FetchAll()
+        
+    }
+    
+    app.Count
+    
+    
+    app.FetchAll()
+    
+    
+</script>
+
